@@ -13,7 +13,7 @@ const Profile = () => {
   console.log(formData);
 
   const handleSubmit = async(e) => {
-    e.preventDefault();
+    e.preventDefault(); 
     try {
       const res = await fetch(`http://localhost:30000/api/user/update/${currentUser._id}` , {
         method: "POST",
