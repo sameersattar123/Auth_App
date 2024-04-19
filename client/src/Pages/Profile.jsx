@@ -1,17 +1,44 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { signInFailure, signInSuccess } from "../redux/slice/userSlice";
 
 const Profile = () => {
   const { currentUser } = useSelector((state) => state.user);
-  const handleChange = () => {};
-  const handleDeleteAccount = () => {};
-  const handleSignOut = () => {
+  const dispatch = useDispatch()
+  const [formData, setFormData] = useState({});
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value });
+  };
 
+  console.log(formData);
+
+  const handleSubmit = async(e) => {
+    e.preventDefault();
+    try {
+      const res = await fetch(`http://localhost:30000/api/user/update/${currentUser._id}` , {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      })
+      const data = await res.json();
+      console.log(data)
+      if (data.success === false) {
+          
+      }
+      
+
+    } catch (error) {
+      
+    }
   }
+  const handleDeleteAccount = () => {};
+  const handleSignOut = () => {};
   return (
-    <div className='p-3 max-w-lg mx-auto'>
+    <div className="p-3 max-w-lg mx-auto">
       <h1 className="text-center text-3xl my-7 font-semibold">Profile</h1>
-      <form className="flex flex-col gap-4">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <img
           src={currentUser.profilePicture}
           className="object-cover rounded-full cursor-pointer h-24 w-24 self-center"
@@ -23,7 +50,7 @@ const Profile = () => {
           className="bg-slate-100 p-3 rounded-lg"
           placeholder="Username"
           onChange={handleChange}
-          value={currentUser.username}
+          defaultValue={currentUser.username}
         />
         <input
           type="email"
@@ -31,7 +58,7 @@ const Profile = () => {
           className="bg-slate-100 p-3 rounded-lg"
           placeholder="Email"
           onChange={handleChange}
-          value={currentUser.email}
+          defaultValue={currentUser.email}
         />
         <input
           type="password"
@@ -39,7 +66,7 @@ const Profile = () => {
           className="bg-slate-100 p-3 rounded-lg"
           placeholder="Password"
           onChange={handleChange}
-          value={currentUser.password}
+          defaultValue={currentUser.password}
         />
         <button className="p-3 text-white bg-slate-700 rounded-lg uppercase hover:opacity-95 disabled:opacity-80">
           {/* {loading ? "Loading..." : "Update"} */} Update
