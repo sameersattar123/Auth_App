@@ -4,7 +4,6 @@ import { signInFailure, signInSuccess } from "../redux/slice/userSlice";
 
 const Profile = () => {
   const { currentUser } = useSelector((state) => state.user);
-  const dispatch = useDispatch()
   const [formData, setFormData] = useState({});
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
@@ -20,6 +19,7 @@ const Profile = () => {
         headers: {
           "Content-Type": "application/json",
         },
+        body: JSON.stringify(formData),
         body: JSON.stringify(formData),
       })
       const data = await res.json();
