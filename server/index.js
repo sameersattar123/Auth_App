@@ -13,10 +13,10 @@ mongoose
     console.log("Connected to MongoDB");
   })
   .catch((err) => {
-    console.log(err);
+    console.log(err); 
   });
 
-const app = express();
+const app = express(); 
 app.use(cors());
 app.use(cookieParser());
 

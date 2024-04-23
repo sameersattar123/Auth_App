@@ -1,8 +1,14 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import {
+  updateUserFailure,
+  updateUserStart,
+  updateUserSuccess,
+} from "../redux/slice/userSlice";
 
 const Profile = () => {
   const { currentUser } = useSelector((state) => state.user);
+  console.log(currentUser)
   const [formData, setFormData] = useState({});
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
@@ -13,22 +19,26 @@ const Profile = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      dispatch(updateUserStart());
       const res = await fetch(
-        `http://localhost:30000/api/user/update/${currentUser._id}`,
+        `http://localhost:3000/api/user/update/${currentUser._id}`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(formData),
-          body: JSON.stringify(formData),
         }
       );
       const data = await res.json();
       console.log(data);
       if (data.success === false) {
+        dispatch(updateUserFailure(data));
       }
-    } catch (error) {}
+      dispatch(updateUserSuccess(data));
+    } catch (error) {
+      dispatch(updateUserFailure(error));
+    }
   };
   const handleDeleteAccount = () => {};
   const handleSignOut = () => {};
