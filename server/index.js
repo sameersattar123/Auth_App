@@ -12,9 +12,9 @@ mongoose
   .then(() => {
     console.log("Connected to MongoDB");
   })
-  .catch((err) => {
-    console.log(err); 
-  });
+  .catch((err) => { 
+    console.log(err);  
+  }); 
 
 const app = express(); 
 app.use(cors());
@@ -22,7 +22,7 @@ app.use(cookieParser());
 
 app.use(express.json());
 
-app.listen(3000, () => {
+app.listen(3000, () => {  
   console.log("Server listening on port 3000");
 });
 
